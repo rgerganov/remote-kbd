@@ -29,11 +29,31 @@ static int send_syn(int sock)
 
 static int translate(int scancode)
 {
+    //printf(">> scancode: %d\n", scancode);
+    if (scancode >= SDL_SCANCODE_1 && scancode <= SDL_SCANCODE_0) {
+        return KEY_1 + (scancode - SDL_SCANCODE_1);
+    }
+    if (scancode >= SDL_SCANCODE_F1 && scancode <= SDL_SCANCODE_F10) {
+        return KEY_F1 + (scancode - SDL_SCANCODE_F1);
+    }
+
     switch (scancode) {
         case SDL_SCANCODE_LEFT:
             return KEY_LEFT;
         case SDL_SCANCODE_RIGHT:
             return KEY_RIGHT;
+        case SDL_SCANCODE_UP:
+            return KEY_UP;
+        case SDL_SCANCODE_DOWN:
+            return KEY_DOWN;
+        case SDL_SCANCODE_RETURN:
+            return KEY_ENTER;
+        case SDL_SCANCODE_ESCAPE:
+            return KEY_ESC;
+        case SDL_SCANCODE_F11:
+            return KEY_F11;
+        case SDL_SCANCODE_F12:
+            return KEY_F12;
         default:
             return -1;
     }
