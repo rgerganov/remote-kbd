@@ -52,7 +52,16 @@ int send_event(int fd, struct input_event *ev)
 
 void print_event(struct input_event *ev)
 {
-    printf("type: %d code: %d value: %d\n", ev->type, ev->code, ev->value);
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    double timestamp = tv.tv_sec + tv.tv_usec / 1e6;
+    if (ev->type == EV_KEY) {
+        printf("[%.03lf] EV_KEY code:%d value:%d\n", timestamp, ev->code, ev->value);
+    } else if (ev->type == EV_SYN) {
+        printf("[%.03lf] EV_SYN code:%d value:%d\n", timestamp, ev->code, ev->value);
+    } else {
+        printf("[%.03lf] type:%d code:%d value:%d\n", timestamp, ev->type, ev->code, ev->value);
+    }
 }
 
 int connect_socket(char *hostname, int port)
