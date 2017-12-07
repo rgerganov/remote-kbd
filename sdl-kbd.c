@@ -38,6 +38,58 @@ static int translate(int scancode)
     }
 
     switch (scancode) {
+        case SDL_SCANCODE_A:
+            return KEY_A;
+        case SDL_SCANCODE_B:
+            return KEY_B;
+        case SDL_SCANCODE_C:
+            return KEY_C;
+        case SDL_SCANCODE_D:
+            return KEY_D;
+        case SDL_SCANCODE_E:
+            return KEY_E;
+        case SDL_SCANCODE_F:
+            return KEY_F;
+        case SDL_SCANCODE_G:
+            return KEY_G;
+        case SDL_SCANCODE_H:
+            return KEY_H;
+        case SDL_SCANCODE_I:
+            return KEY_I;
+        case SDL_SCANCODE_J:
+            return KEY_J;
+        case SDL_SCANCODE_K:
+            return KEY_K;
+        case SDL_SCANCODE_L:
+            return KEY_L;
+        case SDL_SCANCODE_M:
+            return KEY_M;
+        case SDL_SCANCODE_N:
+            return KEY_N;
+        case SDL_SCANCODE_O:
+            return KEY_O;
+        case SDL_SCANCODE_P:
+            return KEY_P;
+        case SDL_SCANCODE_Q:
+            return KEY_Q;
+        case SDL_SCANCODE_R:
+            return KEY_R;
+        case SDL_SCANCODE_S:
+            return KEY_S;
+        case SDL_SCANCODE_T:
+            return KEY_T;
+        case SDL_SCANCODE_U:
+            return KEY_U;
+        case SDL_SCANCODE_V:
+            return KEY_V;
+        case SDL_SCANCODE_W:
+            return KEY_W;
+        case SDL_SCANCODE_X:
+            return KEY_X;
+        case SDL_SCANCODE_Y:
+            return KEY_Y;
+        case SDL_SCANCODE_Z:
+            return KEY_Z;
         case SDL_SCANCODE_LEFT:
             return KEY_LEFT;
         case SDL_SCANCODE_RIGHT:
@@ -50,6 +102,12 @@ static int translate(int scancode)
             return KEY_ENTER;
         case SDL_SCANCODE_ESCAPE:
             return KEY_ESC;
+        case SDL_SCANCODE_BACKSPACE:
+            return KEY_BACKSPACE;
+        case SDL_SCANCODE_PAGEUP:
+            return KEY_PAGEUP;
+        case SDL_SCANCODE_PAGEDOWN:
+            return KEY_PAGEDOWN;
         case SDL_SCANCODE_F11:
             return KEY_F11;
         case SDL_SCANCODE_F12:
@@ -107,15 +165,19 @@ int main(int argc, char *argv[])
                 if (send_syn(client_sock) < 0) {
                     fprintf(stderr, "error on send\n");
                 }
+            } else if (e.type == SDL_KEYUP) {
+                SDL_SetRenderDrawColor(renderer, 0xdc, 0xdc, 0xdc, 0xFF);
+                SDL_RenderClear(renderer);
+                int code = translate(e.key.keysym.scancode);
+                if (code < 0) {
+                    continue;
+                }
                 if (send_key(client_sock, code, 0) < 0) {
                     fprintf(stderr, "error on send\n");
                 }
                 if (send_syn(client_sock) < 0) {
                     fprintf(stderr, "error on send\n");
                 }
-            } else if (e.type == SDL_KEYUP) {
-                SDL_SetRenderDrawColor(renderer, 0xdc, 0xdc, 0xdc, 0xFF);
-                SDL_RenderClear(renderer);
             }
         }
         SDL_RenderPresent(renderer);
