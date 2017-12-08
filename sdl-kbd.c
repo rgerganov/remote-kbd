@@ -117,6 +117,13 @@ static int translate(int scancode)
     }
 }
 
+void send_rs232_cmd(const char *cmd)
+{
+    FILE *f = fopen("/dev/ttyUSB0", "w");
+    fprintf(f, "%s", cmd);
+    fclose(f);
+}
+
 int main(int argc, char *argv[])
 {
     char *host;
@@ -155,6 +162,14 @@ int main(int argc, char *argv[])
             } else if (e.type == SDL_KEYDOWN) {
                 SDL_SetRenderDrawColor(renderer, 0xdc, 0x0c, 0x0c, 0xFF);
                 SDL_RenderClear(renderer);
+                if (e.key.keysym.scancode == SDL_SCANCODE_1 && e.key.keysym.mod == KMOD_LALT) {
+                    send_rs232_cmd("1M1.");
+                    continue;
+                }
+                if (e.key.keysym.scancode == SDL_SCANCODE_2 && e.key.keysym.mod == KMOD_LALT) {
+                    send_rs232_cmd("2M1.");
+                    continue;
+                }
                 int code = translate(e.key.keysym.scancode);
                 if (code < 0) {
                     continue;
